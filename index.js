@@ -21,17 +21,17 @@ const File = require('./models/File');
 
 app.use('/static',express.static('./static'));
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     res.send('hello ugly people with beautiful hearts')
 });
 
 
 
-app.get('/upload', (req, res) => {
+app.get('/api/upload', (req, res) => {
     res.render('upload')
 });
 
-app.post('/upload', upload.single('pic'), async (req, res) => {
+app.post('/api/upload', upload.single('pic'), async (req, res) => {
     console.log('file >>>>>>>>>>>>>>',req.file);
     let newFile ;
     const {file} = req;
@@ -43,11 +43,11 @@ app.post('/upload', upload.single('pic'), async (req, res) => {
         fileSize : file.size ,
     })
 
-    res.redirect('/files')
+    res.redirect('/api/files')
 });
 
 
-app.get('/files', async (req, res) => {
+app.get('/api/files', async (req, res) => {
 
     const fileArray = await File.find()
     console.log('=-=-=-==-=-=-=-=-=-=-=-=-==-=--=-=-=-=--=-=-=-=-=-==-',fileArray);
@@ -55,7 +55,7 @@ app.get('/files', async (req, res) => {
     res.render('files' , {fileArray} )
 });
 
-app.get('/allfiles', async (req, res) => {
+app.get('/api/allfiles', async (req, res) => {
     const allfiles = await File.find();
     res.json(allfiles);
 });
